@@ -1,0 +1,116 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "default" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Movie</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+                    <li class="breadcrumb-item active">Movie</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Movie List</h3>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right"
+                                    placeholder="Search" [(ngModel)]="searchText">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    <button type="button" class="btn btn-success btn-circle" routerLink="/movie/new">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Movie Name</th>
+                                    <th>Director</th>
+                                    <th>Media</th>
+                                    <th>Release Date</th>
+                                    <th>IMDB Rating</th>
+                                    <th width="15%">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let movie of movies | paginate: { itemsPerPage: 10, currentPage: p }; searchFilter: {movieName: searchText, directorName:searchTex}; let i = index">
+                                    <td>{{movie.movieName}}</td>
+                                    <td>{{movie.directorName}}</td>
+                                    <td>{{movie.movieTypeName}}</td>
+                                    <td>{{movie.movieReleaseDate | date}}</td>
+                                    <td>{{movie.imdbRating}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-circle" data-toggle="modal"
+                                            data-target="#myModal" (click)="select(movie)">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-info btn-circle"
+                                            [routerLink]="['/movie', movie.movieId]">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-circle">
+                                            <i (click)="deleteMovie(movie)" class="fa fa-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td *ngIf="movies?.length === 0">No Data!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="myModal" aria-hidden="true" *ngIf="movie">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{movie.movieName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"><img style="display: block; margin-left: auto; margin-right: auto; width: 150px;"
+                    src="{{movie.moviePosterPath}}">
+                <hr />
+                <p>
+                    <b>Director: </b> {{movie.directorName}}</p>
+                <p>
+                    <b>Media Type: </b> {{movie.movieTypeName}}</p>
+                <p>
+                    <b>Release Date: </b> {{movie.movieReleaseDate | date}}</p>
+                <p>
+                    <b>IMDB Id: </b><a href="https://www.imdb.com/title/{{movie.imdbId}}"
+                        target="_blank">{{movie.imdbId}}</a>
+                </p>
+                <p>
+                    <b>IMDB Rating: </b> {{movie.imdbRating}}</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

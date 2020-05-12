@@ -1,0 +1,80 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>{{title}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+                    <li class="breadcrumb-item"><a routerLink="/project">Project</a></li>
+                    <li class="breadcrumb-item active">{{title}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <form #projectForm="ngForm" (ngSubmit)="save();">
+            <div class="card">
+                <div class="card-body">
+                    <input type="hidden" name="projectId" #projectId="ngModel" [(ngModel)]="project.projectId">
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>Project Name</label>
+                            <input type="text" class="form-control" #projectName="ngModel"
+                                [(ngModel)]="project.projectName" name="projectName">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Project Types</label><br />
+                            <select class="form-control" (change)="selectchange($event)">
+                                <option value="0" selected="selected">Select Type</option>
+                                <option *ngFor="let projectType of projectTypes" [value]="projectType.projectTypeId">
+                                    {{projectType.projectTypeName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="project.startDate"
+                                name="startDate">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>End Date</label>
+                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="project.endDate"
+                                name="endDate">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>Project Photo</label>
+                            <input type="file" class="form-control" name="projectPhotoPath" id="projectPhotoPath"
+                                (change)="onFileChange($event)" #fileInput accept="image/*">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>Description</label>
+                            <textarea class="form-control" rows="5" #description="ngModel"
+                                [(ngModel)]="project.projectDescription" name="description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-outline btn-danger pull-right"
+                        (click)="cancel()">Cancel</button>
+                    <button type="submit" class="btn btn-outline btn-success pull-right"
+                        style="margin-right: 5px">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<swal #saved position='top-end' icon='success' title='Successfully saved' showConfirmButton=false timer=1500 toast=true>
+</swal>
+<swal #error position="top-end" text="Error on saving. Please check logs" icon='error' showConfirmButton=false
+    timer=1500 toast=true>
+</swal>

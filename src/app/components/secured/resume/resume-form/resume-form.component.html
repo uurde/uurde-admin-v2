@@ -1,0 +1,61 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>{{title}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+                    <li class="breadcrumb-item"><a routerLink="/resume">Resume</a></li>
+                    <li class="breadcrumb-item active">{{title}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <form #resumeForm="ngForm" (ngSubmit)="save();">
+                    <input type="hidden" name="resumeId" #resumeId="ngModel" [(ngModel)]="resume.resumeId">
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>Company</label>
+                            <input type="text" class="form-control" #company="ngModel" [(ngModel)]="resume.company" name="company">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Title</label>
+                            <input type="text" class="form-control" #title="ngModel" [(ngModel)]="resume.title" name="title">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="resume.startDate" name="startDate">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="resume.endDate" name="endDate">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>Company Logo</label>
+                            <input type="file" class="form-control" name="companyLogoPath" id="companyLogoPath" accept="image/*" (change)="onFileChange($event)" #fileInput>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12"><textarea class="form-control" rows="5" #description="ngModel" [(ngModel)]="resume.resumeDescription" name="description"></textarea> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-outline btn-danger pull-right" (click)="cancel()">Cancel</button>
+                <button type="submit" class="btn btn-outline btn-success pull-right"
+                    style="margin-right: 5px">Save</button>
+            </div>
+        </div>
+    </div>
+</section>

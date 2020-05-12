@@ -1,0 +1,42 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>{{title}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+                    <li class="breadcrumb-item"><a routerLink="/skill">Skill</a></li>
+                    <li class="breadcrumb-item active">{{title}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <form #skillForm="ngForm" (ngSubmit)="save();">
+                    <input type="hidden" name="skillId" #skillId="ngModel" [(ngModel)]="skill.skillId">
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>Skill Name</label>
+                            <input type="text" class="form-control" #firstName="ngModel" [(ngModel)]="skill.skillName" name="skillName">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>Skill Photo</label>
+                            <input type="file" class="form-control" name="skillLogoPath" id="skillLogoPath" accept="image/*" (change)="onFileChange($event)" #fileInput>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-outline btn-danger pull-right" (click)="cancel()">Cancel</button>
+                <button type="submit" class="btn btn-outline btn-success pull-right"
+                    style="margin-right: 5px">Save</button>
+            </div>
+        </div>
+    </div>
+</section>
