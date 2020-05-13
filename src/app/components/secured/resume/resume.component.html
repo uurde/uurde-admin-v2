@@ -1,4 +1,6 @@
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "default" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -45,7 +47,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let resume of resumes | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                                <tr
+                                    *ngFor="let resume of resumes | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                                     <td>{{resume.company}}</td>
                                     <td>{{resume.title}}</td>
                                     <td>{{resume.isDeleted ? "No" : "Yes"}}</td>
@@ -58,8 +61,9 @@
                                             [routerLink]="['/resume', resume.resumeId]">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-circle">
-                                            <i (click)="deleteResume(resume)" class="fa fa-times"></i>
+                                        <button type="button" class="btn btn-danger btn-circle" [swal]="deleteSwal"
+                                            (confirm)="deleteResume(resume)">
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -88,14 +92,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                <img style="display: block; margin-left: auto; margin-right: auto; width: 150px;" src="http://uurde-api.ugurdegirmenci.com/{{resume.companyLogoPath}}">
-              <hr/>
-              <b>
-                <p>{{resume.title}}</p>
-              </b><p>
-                  <b>Start Date: </b>{{ resume.startDate | date }} /
-                  <b>End Date: </b> {{resume.endDate | date}}</p>
-              <div [innerHTML]="resume.resumeDescription"></div>
+                <img style="display: block; margin-left: auto; margin-right: auto; width: 150px;"
+                    src="http://uurde-api.ugurdegirmenci.com/{{resume.companyLogoPath}}">
+                <hr />
+                <b>
+                    <p>{{resume.title}}</p>
+                </b>
+                <p>
+                    <b>Start Date: </b>{{ resume.startDate | date }} /
+                    <b>End Date: </b> {{resume.endDate | date}}</p>
+                <div [innerHTML]="resume.resumeDescription"></div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -103,3 +109,12 @@
         </div>
     </div>
 </div>
+<swal #deleteSwal title="Are you sure you want to delete resume?" icon="warning" [showCancelButton]="true"
+    [focusCancel]="true" [swalOptions]="{ confirmButtonText: 'Delete' }">
+</swal>
+<swal #deleted position='top-end' icon='success' title='Successfully deleted' [showConfirmButton]=false timer=3000
+    toast=true>
+</swal>
+<swal #error position="top-end" text="Error! Please check logs" icon='error' [showConfirmButton]=false timer=3000
+    toast=true>
+</swal>

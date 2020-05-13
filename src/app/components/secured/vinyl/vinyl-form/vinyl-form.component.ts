@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormsModule, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { VinylService } from 'src/app/services/vinyl.service';
 import { VinylModel } from '../../../../models/vinyl.model';
@@ -12,6 +13,8 @@ import { VinylModel } from '../../../../models/vinyl.model';
   styleUrls: ['./vinyl-form.component.css']
 })
 export class VinylFormComponent implements OnInit {
+  @ViewChild('saved', { static: false }) private saved: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   title: string;
   vinyl = new VinylModel();
   vinylForm: FormGroup;
@@ -22,26 +25,26 @@ export class VinylFormComponent implements OnInit {
 
   ngOnInit(): void {
     this._route.params.subscribe(params => {
-    var id = +params["id"];
-    this.title = id ? "Edit Vinyl" : "New Vinyl";
-    if (!id)
-      return;
-    this._vinylService.getVinyl(id).subscribe(
-      data => {
-        this.vinyl = data as any;
-      },
-      response => {
-        if (response.status == 404) {
-          this._router.navigate(['vinyl']);
+      var id = +params["id"];
+      this.title = id ? "Edit Vinyl" : "New Vinyl";
+      if (!id)
+        return;
+      this._vinylService.getVinyl(id).subscribe(
+        data => {
+          this.vinyl = data as any;
+        },
+        response => {
+          if (response.status == 404) {
+            this._router.navigate(['vinyl']);
+          }
         }
-      }
-    );
-  });
-  this.getVinylTypes();
+      );
+    });
+    this.getVinylTypes();
   }
-  selectchange(args){ 
-    this.vinyl.vinylTypeId = args.target.selectedIndex; 
-  } 
+  selectchange(args) {
+    this.vinyl.vinylTypeId = args.target.selectedIndex;
+  }
 
   save() {
     var result;
@@ -50,12 +53,21 @@ export class VinylFormComponent implements OnInit {
     else
       result = this._vinylService.updateVinyl(this.vinyl);
 
-    result.subscribe(x => { this._router.navigate(['vinyl']); });
+    result.subscribe(
+      x => {
+        this._router.navigate(['vinyl']);
+      },
+      err => {
+        this.error.fire();
+      },
+      () => {
+        this.saved.fire();
+      });
   }
 
   cancel() {
     this._router.navigate(['vinyl']);
-  }  
+  }
 
   getVinylTypes() {
     this._vinylService.getVinylTypes().subscribe(data => { this.vinylTypes = data; }, null);

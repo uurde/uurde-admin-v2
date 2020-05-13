@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { ContactService } from 'src/app/services/contact.service';
 import { ContactModel } from '../../../../models/contact.model';
@@ -11,6 +12,8 @@ import { FormGroup, NgForm } from '@angular/forms';
   styleUrls: ['./contact-form.component.css']
 })
 export class ContactFormComponent implements OnInit {
+  @ViewChild('saved', { static: false }) private saved: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   title: string;
   contact = new ContactModel();
   contactForm: FormGroup;
@@ -42,7 +45,16 @@ export class ContactFormComponent implements OnInit {
 
   save() {
     var result = this._contactService.sendMail(this.contact);
-    result.subscribe(x => { this._router.navigate(['contact']); });
+    result.subscribe(
+      x => { 
+        this._router.navigate(['contact']); 
+      },
+    err => {
+      this.error.fire();
+    },
+    () => {
+      this.saved.fire();
+    });
   }
 
   cancel() {

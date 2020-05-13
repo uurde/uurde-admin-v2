@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { BookService } from 'src/app/services/book.service';
 import { BookModel } from '../../../../models/book.model';
-import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-book-form',
@@ -11,6 +12,8 @@ import { FormGroup, NgForm } from '@angular/forms';
   styleUrls: ['./book-form.component.css']
 })
 export class BookFormComponent implements OnInit {
+  @ViewChild('saved', { static: false }) private saved: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   title: string;
   book = new BookModel();
   bookForm: FormGroup;
@@ -42,7 +45,16 @@ export class BookFormComponent implements OnInit {
     else
       result = this._bookService.updateBook(this.book);
 
-    result.subscribe(x => { this._router.navigate(['book']); });
+    result.subscribe(
+      x => { 
+        this._router.navigate(['book']); 
+      },
+      err => {
+        this.error.fire();
+      },
+      () => {
+        this.saved.fire();
+      });
   }
 
   cancel() {

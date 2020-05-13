@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { SkillService } from 'src/app/services/skill.service';
 
@@ -10,6 +11,8 @@ import { SkillService } from 'src/app/services/skill.service';
   styleUrls: ['./skill.component.css']
 })
 export class SkillComponent implements OnInit {
+  @ViewChild('deleted', { static: false }) private deleted: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   skills: any;
   skill;
   pagedSkills = [];
@@ -33,14 +36,17 @@ export class SkillComponent implements OnInit {
   }
 
   deleteSkill(skill) {
-    if (confirm("Are you sure you want to disactive skill?")) {
       var index = this.skills.indexOf(skill)
       this._skillService.deleteSkill(skill.skillId)
         .subscribe(null,
           err => {
-            alert("Could not delete the skill.");
+            this.error.fire();
+            this.skills.splice(index, 0, skill);
+          },
+          () => {
+            this.deleted.fire();
+            this.skills.splice(index, 1);
           });
-    }
   }
 
   select(skill) {

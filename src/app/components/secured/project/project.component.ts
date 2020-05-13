@@ -13,6 +13,7 @@ import { ProjectService } from 'src/app/services/project.service';
 
 export class ProjectComponent implements OnInit {
   @ViewChild('deleted', { static: false }) private deleted: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   projects: any;
   project;
   projectTypes: any;
@@ -41,14 +42,17 @@ export class ProjectComponent implements OnInit {
 
 
   deleteProject(project) {
-    var index = this.projects.indexOf(project)
+    var index = this.projects.indexOf(project);    
+    this.project.splice(index, 1);
     this._projectService.deleteProject(project.projectId)
       .subscribe(null,
         err => {
-          alert("Could not delete the project.");
+          this.error.fire();
+          this.projects.splice(index, 0, project);
         },
         () => {
           this.deleted.fire();
+          this.projects.splice(index, 1);
         }
       );
   }

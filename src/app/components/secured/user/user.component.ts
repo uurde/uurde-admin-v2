@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,6 +11,8 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  @ViewChild('deleted', { static: false }) private deleted: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   users: any;
   user;
   pagedUsers = [];
@@ -33,14 +36,14 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(user) {
-    if (confirm("Are you sure you want to disactive user?")) {
-      var index = this.users.indexOf(user)
-      this._userService.deleteUser(user.userId)
-        .subscribe(null,
-          err => {
-            alert("Could not delete the user.");
-          });
-    }
+    this._userService.deleteUser(user.userId)
+      .subscribe(null,
+        err => {
+          this.error.fire();
+        },
+        () => {
+          this.deleted.fire();
+        });
   }
 
   select(user) {

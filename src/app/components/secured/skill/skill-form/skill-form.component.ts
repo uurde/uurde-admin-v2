@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { SkillService } from 'src/app/services/skill.service';
 import { SkillModel } from '../../../../models/skill.model';
-import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-skill-form',
@@ -11,6 +12,8 @@ import { FormGroup, NgForm } from '@angular/forms';
   styleUrls: ['./skill-form.component.css']
 })
 export class SkillFormComponent implements OnInit {
+  @ViewChild('saved', { static: false }) private saved: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   title: string;
   skill = new SkillModel();
   skillForm: FormGroup;
@@ -58,7 +61,16 @@ export class SkillFormComponent implements OnInit {
     else
       result = this._skillService.updateSkill(this.skill);
 
-    result.subscribe(x => { this._router.navigate(['skill']); });
+    result.subscribe(
+      x => {
+        this._router.navigate(['skill']);
+      },
+      err => {
+        this.error.fire();
+      },
+      () => {
+        this.saved.fire();
+      });
   }
 
   cancel() {

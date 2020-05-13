@@ -16,9 +16,9 @@
 </section>
 <section class="content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <form #bookForm="ngForm" (ngSubmit)="save();">
+        <form #bookForm="ngForm" (ngSubmit)="save();">
+            <div class="card">
+                <div class="card-body">
                     <input type="hidden" name="bookId" #bookId="ngModel" [(ngModel)]="book.bookId">
                     <div class="row">
                         <div class="form-group col-lg-6">
@@ -51,13 +51,20 @@
                                 [(ngModel)]="book.bookCoverPath" name="bookCoverPath">
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-outline btn-success float-right"
+                        style="margin-right: 5px">Save</button>
+                    <button type="button" class="btn btn-outline btn-danger float-right"
+                        (click)="cancel()">Cancel</button>
+                </div>
             </div>
-            <div class="card-footer">
-                <button type="button" class="btn btn-outline btn-danger pull-right" (click)="cancel()">Cancel</button>
-                <button type="submit" class="btn btn-outline btn-success pull-right"
-                    style="margin-right: 5px">Save</button>
-            </div>
-        </div>
+        </form>
     </div>
 </section>
+<swal #saved position='top-end' icon='success' title='Successfully saved' [showConfirmButton]=false timer=3000
+    toast=true>
+</swal>
+<swal #error position="top-end" text="Error on saving. Please check logs" icon='error' [showConfirmButton]="false"
+    timer=3000 toast=true>
+</swal>

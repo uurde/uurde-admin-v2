@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { ResumeService } from 'src/app/services/resume.service';
 
@@ -10,6 +11,9 @@ import { ResumeService } from 'src/app/services/resume.service';
   styleUrls: ['./resume.component.css']
 })
 export class ResumeComponent implements OnInit {
+  @ViewChild('deleted', { static: false }) private deleted: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
+
   resumes: any;
   resume;
   pagedResumes = [];
@@ -34,14 +38,17 @@ export class ResumeComponent implements OnInit {
   }
 
   deleteResume(resume) {
-    if (confirm("Are you sure you want to disactive resume?")) {
-      var index = this.resumes.indexOf(resume)
-      this._resumeService.deleteResume(resume.resumeId)
-        .subscribe(null,
-          err => {
-            alert("Could not delete the resume.");
-          });
-    }
+    var index = this.resumes.indexOf(resume)
+    this._resumeService.deleteResume(resume.resumeId)
+      .subscribe(null,
+        err => {
+          this.error.fire();
+          this.resumes.splice(index, 0, resume);
+        },
+        () => {
+          this.deleted.fire();
+          this.resumes.splice(index, 1);
+        });
   }
 
   select(resume) {

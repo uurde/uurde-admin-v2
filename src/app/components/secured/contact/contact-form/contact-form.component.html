@@ -16,9 +16,9 @@
 </section>
 <section class="content">
     <div class="container-fluid">
+        <form #contactForm="ngForm" (ngSubmit)="save();">
         <div class="card">
             <div class="card-body">
-                <form #contactForm="ngForm" (ngSubmit)="save();">
                     <input type="hidden" name="contactId" #contactId="ngModel" [(ngModel)]="contact.contactId">
                     <div class="row">
                         <div class="form-group col-lg-6">
@@ -40,13 +40,20 @@
                             <textarea class="form-control" [(ngModel)]="contact.replyBody" name="replyBody" #replyBody="ngModel"></textarea>
                         </div>
                     </div>
-                </form>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-outline btn-danger pull-right" (click)="cancel()">Cancel</button>
-                <button type="submit" class="btn btn-outline btn-success pull-right"
+                <button type="submit" class="btn btn-outline btn-success float-right"
                     style="margin-right: 5px">Save</button>
+                <button type="button" class="btn btn-outline btn-danger float-right"
+                    (click)="cancel()">Cancel</button>
             </div>
         </div>
+    </form>
     </div>
 </section>
+<swal #saved position='top-end' icon='success' title='Successfully saved' [showConfirmButton]=false timer=3000
+    toast=true>
+</swal>
+<swal #error position="top-end" text="Error on saving. Please check logs" icon='error' [showConfirmButton]="false"
+    timer=3000 toast=true>
+</swal>

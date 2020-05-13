@@ -58,8 +58,8 @@
                                             [routerLink]="['/vinyl', vinyl.vinylId]">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-circle">
-                                            <i (click)="deleteVinyl(vinyl)" class="fa fa-times"></i>
+                                        <button type="button" class="btn btn-danger btn-circle" [swal]="deleteSwal" (confirm)="deleteVinyl(vinyl)">
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -99,3 +99,10 @@
         </div>
     </div>
 </div>
+<swal #deleteSwal title="Are you sure you want to delete vinyl?" icon="warning" [showCancelButton]="true"
+    [focusCancel]="true" [swalOptions]="{ confirmButtonText: 'Delete' }">
+</swal>
+<swal #deleted position='top-end' icon='success' title='Successfully deleted' [showConfirmButton]=false timer=3000 toast=true>
+</swal>
+<swal #error position="top-end" text="Error! Please check logs" icon='error' [showConfirmButton]=false timer=3000 toast=true>
+</swal>

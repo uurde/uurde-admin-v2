@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { ContactService } from 'src/app/services/contact.service';
 
@@ -10,6 +11,8 @@ import { ContactService } from 'src/app/services/contact.service';
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
+  @ViewChild('deleted', { static: false }) private deleted: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   contacts: any;
   contact;
   pagedContacts = [];
@@ -40,16 +43,18 @@ export class ContactComponent implements OnInit {
   }
 
   deleteContact(contact) {
-    if (confirm("Are you sure you want to delete message?")) {
-      var index = this.contacts.indexOf(contact)
-      this.contacts.splice(index, 1);
-      this._contactService.deleteContact(contact.contactId)
-        .subscribe(null,
-          err => {
-            alert("Could not delete the contact.");
-            this.contacts.splice(index, 0, contact);
-          });
-    }
+    var index = this.contacts.indexOf(contact)
+    this.contacts.splice(index, 1);
+    this._contactService.deleteContact(contact.contactId)
+      .subscribe(null,
+        err => {
+          this.error.fire();
+          this.contacts.splice(index, 0, contact);
+        },
+        () => {
+          this.deleted.fire();
+          this.contacts.splice(index, 1);
+        });
   }
 
   select(contact) {

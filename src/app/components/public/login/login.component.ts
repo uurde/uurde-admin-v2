@@ -46,8 +46,8 @@ export class LoginComponent implements OnInit {
           }
         },
         () => {
-          this.spinner.hide(),
-            this.succes.fire()
+          this.spinner.hide();
+          this.succes.fire();
         }
       );
   }

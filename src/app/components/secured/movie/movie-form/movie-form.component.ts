@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { MovieService } from 'src/app/services/movie.service';
 import { MovieModel } from '../../../../models/movie.model';
-import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-movie-form',
@@ -11,6 +12,8 @@ import { FormGroup, NgForm } from '@angular/forms';
   styleUrls: ['./movie-form.component.css']
 })
 export class MovieFormComponent implements OnInit {
+  @ViewChild('saved', { static: false }) private saved: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   title: string;
   movie = new MovieModel();
   movieForm: FormGroup;
@@ -41,9 +44,9 @@ export class MovieFormComponent implements OnInit {
     this.getMovieMediaTypes();
   }
 
-  selectchange(args){ 
-    this.movie.movieMediaTypeId = args.target.selectedIndex; 
-  } 
+  selectchange(args) {
+    this.movie.movieMediaTypeId = args.target.selectedIndex;
+  }
 
   save() {
     var result;
@@ -52,12 +55,21 @@ export class MovieFormComponent implements OnInit {
     else
       result = this._movieService.updateMovie(this.movie);
 
-    result.subscribe(x => { this._router.navigate(['movie']); });
+    result.subscribe(
+      x => {
+        this._router.navigate(['movie']);
+      },
+      err => {
+        this.error.fire();
+      },
+      () => {
+        this.saved.fire();
+      });
   }
 
   cancel() {
     this._router.navigate(['movie']);
-  }  
+  }
 
   getMovieMediaTypes() {
     this._movieService.getMovieMediaTypes().subscribe(data => { this.movieMediaTypes = data; }, null);

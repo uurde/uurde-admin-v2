@@ -27,7 +27,7 @@
                                     placeholder="Search">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-                                    <button type="button" class="btn btn-success btn-circle" routerLink="/resume/new">
+                                    <button type="button" class="btn btn-success btn-circle" routerLink="/skill/new">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
@@ -54,8 +54,8 @@
                                       <button type="button" class="btn btn-info btn-circle" [routerLink]="['/skill', skill.skillId]">
                                         <i class="fa fa-edit"></i>
                                       </button>
-                                      <button type="button" class="btn btn-danger btn-circle">
-                                        <i (click)="deleteSkill(skill)" class="fa fa-times"></i>
+                                      <button type="button" class="btn btn-danger btn-circle" [swal]="deleteSwal" (confirm)="deleteSkill(skill)">
+                                        <i class="fa fa-times"></i>
                                       </button>
                                     </td>
                                   </tr>
@@ -96,3 +96,10 @@
         </div>
     </div>
 </div>
+<swal #deleteSwal title="Are you sure you want to delete skill?" icon="warning" [showCancelButton]="true"
+    [focusCancel]="true" [swalOptions]="{ confirmButtonText: 'Delete' }">
+</swal>
+<swal #deleted position='top-end' icon='success' title='Successfully deleted' [showConfirmButton]=false timer=3000 toast=true>
+</swal>
+<swal #error position="top-end" text="Error! Please check logs" icon='error' [showConfirmButton]=false timer=3000 toast=true>
+</swal>

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { ResumeService } from 'src/app/services/resume.service';
 import { ResumeModel } from '../../../../models/resume.model';
-import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-resume-form',
@@ -11,6 +12,9 @@ import { FormGroup, NgForm } from '@angular/forms';
   styleUrls: ['./resume-form.component.css']
 })
 export class ResumeFormComponent implements OnInit {
+  @ViewChild('saved', { static: false }) private saved: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
+
   title: string;
   resume = new ResumeModel();
   resumeForm: FormGroup;
@@ -58,7 +62,16 @@ export class ResumeFormComponent implements OnInit {
     else
       result = this._resumeService.updateResume(this.resume);
 
-    result.subscribe(x => { this._router.navigate(['resume']); });
+    result.subscribe(
+      x => {
+        this._router.navigate(['resume']);
+      },
+      err => {
+        this.error.fire();
+      },
+      () => {
+        this.saved.fire();
+      });
   }
 
   cancel() {

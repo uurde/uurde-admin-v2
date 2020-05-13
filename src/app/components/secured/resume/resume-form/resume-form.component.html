@@ -16,46 +16,59 @@
 </section>
 <section class="content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <form #resumeForm="ngForm" (ngSubmit)="save();">
+        <form #resumeForm="ngForm" (ngSubmit)="save();">
+            <div class="card">
+                <div class="card-body">
                     <input type="hidden" name="resumeId" #resumeId="ngModel" [(ngModel)]="resume.resumeId">
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Company</label>
-                            <input type="text" class="form-control" #company="ngModel" [(ngModel)]="resume.company" name="company">
+                            <input type="text" class="form-control" #company="ngModel" [(ngModel)]="resume.company"
+                                name="company">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Title</label>
-                            <input type="text" class="form-control" #title="ngModel" [(ngModel)]="resume.title" name="title">
+                            <input type="text" class="form-control" #title="ngModel" [(ngModel)]="resume.title"
+                                name="title">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Start Date</label>
-                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="resume.startDate" name="startDate">
+                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="resume.startDate"
+                                name="startDate">
                         </div>
                         <div class="form-group col-lg-6">
-                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="resume.endDate" name="endDate">
+                            <label>End Date</label>
+                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="resume.endDate"
+                                name="endDate">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>Company Logo</label>
-                            <input type="file" class="form-control" name="companyLogoPath" id="companyLogoPath" accept="image/*" (change)="onFileChange($event)" #fileInput>
+                            <input type="file" class="form-control" name="companyLogoPath" id="companyLogoPath"
+                                accept="image/*" (change)="onFileChange($event)" #fileInput>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-12"><textarea class="form-control" rows="5" #description="ngModel" [(ngModel)]="resume.resumeDescription" name="description"></textarea> 
+                        <div class="form-group col-lg-12"><textarea class="form-control" rows="5" #description="ngModel"
+                                [(ngModel)]="resume.resumeDescription" name="description"></textarea>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-outline btn-success float-right"
+                        style="margin-right: 5px">Save</button>
+                    <button type="button" class="btn btn-outline btn-danger float-right"
+                        (click)="cancel()">Cancel</button>
+                </div>
             </div>
-            <div class="card-footer">
-                <button type="button" class="btn btn-outline btn-danger pull-right" (click)="cancel()">Cancel</button>
-                <button type="submit" class="btn btn-outline btn-success pull-right"
-                    style="margin-right: 5px">Save</button>
-            </div>
-        </div>
+        </form>
     </div>
 </section>
+<swal #saved position='top-end' icon='success' title='Successfully saved' [showConfirmButton]=false timer=3000
+    toast=true>
+</swal>
+<swal #error position="top-end" text="Error on saving. Please check logs" icon='error' [showConfirmButton]="false"
+    timer=3000 toast=true>

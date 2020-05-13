@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { UserService } from 'src/app/services/user.service';
 import { UserModel } from '../../../../models/user.model';
-import { FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-user-form',
@@ -11,6 +12,8 @@ import { FormGroup, NgForm } from '@angular/forms';
   styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent implements OnInit {
+  @ViewChild('saved', { static: false }) private saved: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   title: string;
   user = new UserModel();
   userForm: FormGroup;
@@ -58,7 +61,16 @@ export class UserFormComponent implements OnInit {
     else
       result = this._userService.updateUser(this.user);
 
-    result.subscribe(x => { this._router.navigate(['user']); });
+    result.subscribe(
+      x => {
+        this._router.navigate(['user']);
+      },
+      err => {
+        this.error.fire();
+      },
+      () => {
+        this.saved.fire();
+      });
   }
 
   cancel() {

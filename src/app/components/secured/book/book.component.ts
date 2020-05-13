@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { BookService } from 'src/app/services/book.service';
 
@@ -10,6 +11,8 @@ import { BookService } from 'src/app/services/book.service';
   styleUrls: ['./book.component.css']
 })
 export class BookComponent implements OnInit {
+  @ViewChild('deleted', { static: false }) private deleted: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   books: any;
   book;
   pagedBooks = [];
@@ -41,16 +44,17 @@ export class BookComponent implements OnInit {
   }
 
   deleteBook(book) {
-    if (confirm("Are you sure you want to delete book?")) {
-      var index = this.books.indexOf(book)
-      this.books.splice(index, 1);
-      this._bookService.deleteBook(book.bookId)
-        .subscribe(null,
-          err => {
-            alert("Could not delete the book.");
-            this.books.splice(index, 0, book);
-          });
-    }
+    var index = this.books.indexOf(book)
+    this._bookService.deleteBook(book.bookId)
+      .subscribe(null,
+        err => {
+          this.error.fire();
+          this.books.splice(index, 0, book);
+        },
+        () => {
+          this.deleted.fire();
+          this.books.splice(index, 1);
+        });
   }
 
   select(book) {

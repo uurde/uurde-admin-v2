@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as _ from 'underscore';
 import { NgxSpinnerService } from "ngx-spinner";
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 import { VinylService } from 'src/app/services/vinyl.service';
 
@@ -10,6 +11,8 @@ import { VinylService } from 'src/app/services/vinyl.service';
   styleUrls: ['./vinyl.component.css']
 })
 export class VinylComponent implements OnInit {
+  @ViewChild('deleted', { static: false }) private deleted: SwalComponent;
+  @ViewChild('error', { static: false }) private error: SwalComponent;
   vinyls: any;
   vinyl;
   pagedVinyls = [];
@@ -33,14 +36,17 @@ export class VinylComponent implements OnInit {
   }
 
   deleteVinyl(vinyl) {
-    if (confirm("Are you sure you want to disactive vinyl?")) {
       var index = this.vinyls.indexOf(vinyl)
       this._vinylService.deleteVinyl(vinyl.vinylId)
         .subscribe(null,
           err => {
-            alert("Could not delete the vinyl.");
+            this.error.fire();
+            this.vinyls.splice(index, 0, vinyl);
+          },
+          () => {
+            this.deleted.fire();
+            this.vinyls.splice(index, 1);
           });
-    }
   }
 
   select(vinyl) {

@@ -16,35 +16,39 @@
 </section>
 <section class="content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <form #userForm="ngForm" (ngSubmit)="save();">
+        <form #userForm="ngForm" (ngSubmit)="save();">
+            <div class="card">
+                <div class="card-body">
                     <input type="hidden" name="userId" #userId="ngModel" [(ngModel)]="user.userId">
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>First Name</label>
-                            <input type="text" class="form-control" #firstName="ngModel" [(ngModel)]="user.firstName" name="firstName">
+                            <input type="text" class="form-control" #firstName="ngModel" [(ngModel)]="user.firstName"
+                                name="firstName">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Last Name</label>
-                            <input type="text" class="form-control" #lastName="ngModel" [(ngModel)]="user.lastName" name="lastName">
+                            <input type="text" class="form-control" #lastName="ngModel" [(ngModel)]="user.lastName"
+                                name="lastName">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>User Name</label>
-                            <input type="email" class="form-control" #userName="ngModel" [(ngModel)]="user.userName" name="userName">
+                            <input type="email" class="form-control" #userName="ngModel" [(ngModel)]="user.userName"
+                                name="userName">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Password</label>
-                            <input type="password" class="form-control" #userPassword="ngModel" [(ngModel)]="user.userPassword" name="userPassword">
+                            <input type="password" class="form-control" #userPassword="ngModel"
+                                [(ngModel)]="user.userPassword" name="userPassword">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>User Photo</label>
-                            <input type="file" class="form-control" name="userPhotoPath" id="userPhotoPath" (change)="onFileChange($event)" #fileInput
-                              accept="image/*">
+                            <input type="file" class="form-control" name="userPhotoPath" id="userPhotoPath"
+                                (change)="onFileChange($event)" #fileInput accept="image/*">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>User CV</label>
@@ -54,16 +58,24 @@
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>About Description</label>
-                            <textarea class="form-control" [(ngModel)]="user.description" name="description" #description="ngModel"></textarea>
+                            <textarea class="form-control" [(ngModel)]="user.description" name="description"
+                                #description="ngModel"></textarea>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-outline btn-success float-right"
+                        style="margin-right: 5px">Save</button>
+                    <button type="button" class="btn btn-outline btn-danger float-right"
+                        (click)="cancel()">Cancel</button>
+                </div>
             </div>
-            <div class="card-footer">
-                <button type="button" class="btn btn-outline btn-danger pull-right" (click)="cancel()">Cancel</button>
-                <button type="submit" class="btn btn-outline btn-success pull-right"
-                    style="margin-right: 5px">Save</button>
-            </div>
-        </div>
+        </form>
     </div>
 </section>
+<swal #saved position='top-end' icon='success' title='Successfully saved' [showConfirmButton]=false timer=3000
+    toast=true>
+</swal>
+<swal #error position="top-end" text="Error on saving. Please check logs" icon='error' [showConfirmButton]="false"
+    timer=3000 toast=true>
+</swal>
