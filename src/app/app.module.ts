@@ -8,6 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { MomentModule } from 'angular2-moment'; 
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 
@@ -90,7 +93,10 @@ import { IotDeviceFormComponent } from './components/secured/iot/iot-device/iot-
     ReactiveFormsModule,
     NgxPaginationModule,
     NgxSpinnerModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    NgIdleKeepaliveModule.forRoot(),
+    MomentModule,
+    ModalModule.forRoot()
   ],
   providers: [
     BookService,

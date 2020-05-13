@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { Http, Response, RequestOptions, Headers } from '@angular/http';
+import { Observable, Subject } from 'rxjs';
 
 import { HeaderConfig } from 'src/app/services/header.config';
 import { UserModel } from '../models/user.model';
@@ -15,10 +13,12 @@ export class UserService {
     user: UserModel;
     users: UserModel[];
 
+    private userLoggedIn = new Subject<boolean>();
+
     private _url = this.headerConfig.url + "/api/users";
 
     constructor(private _http: HttpClient) {
-
+        this.userLoggedIn.next(false);
     }
 
     getAllUsers() {
@@ -27,6 +27,14 @@ export class UserService {
 
     getUser(userId) {
         return this._http.get(this._url + "/" + userId, this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
+    }
+
+    setUserLoggedIn(userLoggedIn: boolean) {
+        this.userLoggedIn.next(userLoggedIn);
+    }
+
+    getUserLoggedIn(): Observable<boolean> {
+        return this.userLoggedIn.asObservable();
     }
 
     insertUser(user) {
@@ -53,5 +61,6 @@ export class UserService {
 
     logout() {
         localStorage.removeItem('currentUser');
+        this.userLoggedIn.next(false);
     }
 }
