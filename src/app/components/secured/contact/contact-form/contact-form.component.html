@@ -37,15 +37,14 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Reply Message</label>
-                            <textarea class="form-control" [(ngModel)]="contact.replyBody" name="replyBody" #replyBody="ngModel"></textarea>
+                            <textarea class="form-control" [(ngModel)]="contact.replyBody" name="replyBody" #replyBody="ngModel" required [ngClass]="replyBody.invalid?'is-invalid':'is-valid'"></textarea>
                         </div>
                     </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-outline btn-success float-right"
-                    style="margin-right: 5px">Save</button>
+                <button type="submit" class="btn btn-outline btn-success float-right" [disabled]="replyBody.invalid">Save</button>
                 <button type="button" class="btn btn-outline btn-danger float-right"
-                    (click)="cancel()">Cancel</button>
+                    (click)="cancel()" style="margin-right: 5px;">Cancel</button>
             </div>
         </div>
     </form>

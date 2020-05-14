@@ -23,20 +23,20 @@
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Artist</label>
-                            <input type="text" class="form-control" #artistName="ngModel" [(ngModel)]="vinyl.artistName"
-                                name="artistName">
+                            <input type="text" class="form-control" #artistName="ngModel" [(ngModel)]="vinyl.artistName" name="artistName" required [ngClass]="artistName.invalid?'is-invalid':'is-valid'"
+                            name="movieName">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Album Name</label>
-                            <input type="text" class="form-control" #albumName="ngModel" [(ngModel)]="vinyl.albumName"
-                                name="albumName">
+                            <input type="text" class="form-control" #albumName="ngModel" [(ngModel)]="vinyl.albumName" name="albumName" required [ngClass]="albumName.invalid?'is-invalid':'is-valid'"
+                            name="movieName">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Vinyl Type</label>
                             <br />
-                            <select class="form-control" (change)="selectchange($event)">
+                            <select class="form-control" (change)="selectchange($event)" #vinylType="ngModel" [(ngModel)]="vinyl.vinylTypeId" name="vinylType" [ngClass]="vinylType.invalid?'is-invalid':'is-valid'" required>
                                 <option value="0" selected="selected">Select Type</option>
                                 <option *ngFor="let vinylType of vinylTypes" [value]="vinylType.vinylTypeId">
                                     {{vinylType.vinylTypeName}}</option>
@@ -44,23 +44,20 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Release Date</label>
-                            <input type="date" class="form-control" #albumReleaseDate="ngModel"
-                                [(ngModel)]="vinyl.albumReleaseDate" name="albumReleaseDate">
+                            <input type="date" class="form-control" #albumReleaseDate="ngModel" [(ngModel)]="vinyl.albumReleaseDate" name="albumReleaseDate">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>Cover Photo</label>
-                            <input type="text" class="form-control" #albumCoverPath="ngModel"
-                                [(ngModel)]="vinyl.albumCoverPath" name="albumCoverPath">
+                            <input type="text" class="form-control" #albumCoverPath="ngModel" [(ngModel)]="vinyl.albumCoverPath" name="albumCoverPath">
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-outline btn-success float-right"
-                        style="margin-right: 5px">Save</button>
+                    <button type="submit" class="btn btn-outline btn-success float-right" [disabled]="artistName.invalid && albumName.invalid && albumName.invalid">Save</button>
                     <button type="button" class="btn btn-outline btn-danger float-right"
-                        (click)="cancel()">Cancel</button>
+                        (click)="cancel()"style="margin-right: 5px">Cancel</button>
                 </div>
             </div>
         </form>

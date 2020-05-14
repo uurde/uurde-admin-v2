@@ -1,4 +1,7 @@
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "default" color = "#fff" type = "timer" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
@@ -6,10 +9,12 @@
     </div>
     <div class="card">
       <div class="card-body login-card-body">
-        <p class="login-box-msg">Sign in to start your session</p>  
+        <p class="login-box-msg">Sign in to start your session</p>
         <form #loginForm="ngForm" (ngSubmit)="login();">
           <div class="input-group mb-3">
-            <input class="form-control" placeholder="User Name" name="userName" type="text" autofocus #userName="ngModel" [(ngModel)]="user.userName">
+            <input class="form-control" placeholder="User Name" name="userName" type="text" autofocus
+              #userName="ngModel" [(ngModel)]="user.userName" required
+              [ngClass]="userName.invalid?'is-invalid':'is-valid'">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -17,7 +22,9 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input class="form-control" placeholder="Password" name="userPassword" type="password" value="" #userPassword="ngModel" [(ngModel)]="user.userPassword">
+            <input class="form-control" placeholder="Password" name="userPassword" type="password" value=""
+              #userPassword="ngModel" [(ngModel)]="user.userPassword" required
+              [ngClass]="userPassword.invalid?'is-invalid':'is-valid'">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -26,35 +33,19 @@
           </div>
           <div class="row">
             <div class="col-8">
-              <!-- <div class="icheck-primary">
-                <input type="checkbox" id="remember">
-                <label for="remember">
-                  Remember Me
-                </label>
-              </div> -->
             </div>
             <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="userName.invalid && userPassword.invalid">Sign In</button>
             </div>
           </div>
         </form>
-        <!-- <p class="mb-1">
-          <a>I forgot my password</a>
-        </p>
-        <p class="mb-0">
-          <a class="text-center">Register a new membership</a>
-        </p> -->
       </div>
     </div>
   </div>
 </body>
-<swal #succes
-position="top-end"
-icon="success"
-title="Successfully signed in" 
-timer="3000" 
-toast="true"
-[showConfirmButton]="false">
+<swal #succes position="top-end" icon="success" title="Successfully signed in" timer="3000" toast="true"
+  [showConfirmButton]="false">
 </swal>
-<swal #error position="top-end" text="Error on sing in. Please check logs" icon='error' [showConfirmButton]=false timer=3000 toast=true>
+<swal #error position="top-end" text="Error on sing in. Please check logs" icon='error' [showConfirmButton]=false
+  timer=3000 toast=true>
 </swal>

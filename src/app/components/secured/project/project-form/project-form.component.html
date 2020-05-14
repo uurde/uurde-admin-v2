@@ -24,49 +24,43 @@
                         <div class="form-group col-lg-6">
                             <label>Project Name</label>
                             <input type="text" class="form-control" #projectName="ngModel"
-                                [(ngModel)]="project.projectName" name="projectName">
+                                [(ngModel)]="project.projectName" name="projectName" required [ngClass]="projectName.invalid?'is-invalid':'is-valid'">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Project Types</label><br />
-                            <select class="form-control" (change)="selectchange($event)">
+                            <select class="form-control" (change)="selectchange($event)" #projectTypeName="ngModel" [(ngModel)]="project.projectTypeId" name="projectTypeName" [ngClass]="projectTypeName.invalid?'is-invalid':'is-valid'" required>
                                 <option value="0" selected="selected">Select Type</option>
-                                <option *ngFor="let projectType of projectTypes" [value]="projectType.projectTypeId">
-                                    {{projectType.projectTypeName}}</option>
+                                <option *ngFor="let projectType of projectTypes" [value]="projectType.projectTypeId">{{projectType.projectTypeName}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Start Date</label>
-                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="project.startDate"
-                                name="startDate">
+                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="project.startDate" name="startDate" required [ngClass]="startDate.invalid?'is-invalid':'is-valid'">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>End Date</label>
-                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="project.endDate"
-                                name="endDate">
+                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="project.endDate" name="endDate">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>Project Photo</label>
-                            <input type="file" class="form-control" name="projectPhotoPath" id="projectPhotoPath"
-                                (change)="onFileChange($event)" #fileInput accept="image/*">
+                            <input type="file" class="form-control" name="projectPhotoPath" id="projectPhotoPath" (change)="onFileChange($event)" #fileInput accept="image/*">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>Description</label>
-                            <textarea class="form-control" rows="5" #description="ngModel"
-                                [(ngModel)]="project.projectDescription" name="description"></textarea>
+                            <textarea class="form-control" rows="5" #description="ngModel" [(ngModel)]="project.projectDescription" name="description" required [ngClass]="description.invalid?'is-invalid':'is-valid'"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-outline btn-success float-right"
-                        style="margin-right: 5px">Save</button>
+                    <button type="submit" class="btn btn-outline btn-success float-right" [disabled]="projectName.invalid && projectTypeName.invalid && startDate.invalid && description.invalid">Save</button>
                     <button type="button" class="btn btn-outline btn-danger float-right"
-                        (click)="cancel()">Cancel</button>
+                        (click)="cancel()" style="margin-right: 5px">Cancel</button>
                 </div>
             </div>
         </form>

@@ -23,45 +23,40 @@
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Company</label>
-                            <input type="text" class="form-control" #company="ngModel" [(ngModel)]="resume.company"
-                                name="company">
+                            <input type="text" class="form-control" #company="ngModel" [(ngModel)]="resume.company" name="company" required [ngClass]="company.invalid?'is-invalid':'is-valid'">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Title</label>
-                            <input type="text" class="form-control" #title="ngModel" [(ngModel)]="resume.title"
-                                name="title">
+                            <input type="text" class="form-control" #title="ngModel" [(ngModel)]="resume.title" name="title" required [ngClass]="title.invalid?'is-invalid':'is-valid'">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <label>Start Date</label>
-                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="resume.startDate"
-                                name="startDate">
+                            <input type="date" class="form-control" #startDate="ngModel" [(ngModel)]="resume.startDate" name="startDate" required [ngClass]="startDate.invalid?'is-invalid':'is-valid'">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>End Date</label>
-                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="resume.endDate"
-                                name="endDate">
+                            <input type="date" class="form-control" #endDate="ngModel" [(ngModel)]="resume.endDate" name="endDate">
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>Company Logo</label>
                             <input type="file" class="form-control" name="companyLogoPath" id="companyLogoPath"
-                                accept="image/*" (change)="onFileChange($event)" #fileInput>
+                                accept="image/*" (change)="onFileChange($event)" #fileInput >
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-12"><textarea class="form-control" rows="5" #description="ngModel"
-                                [(ngModel)]="resume.resumeDescription" name="description"></textarea>
+                        <div class="form-group col-lg-12"><textarea class="form-control" rows="5" #description="ngModel" [(ngModel)]="resume.resumeDescription" name="description" required [ngClass]="description.invalid?'is-invalid':'is-valid'"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-outline btn-success float-right"
-                        style="margin-right: 5px">Save</button>
+                    [disabled]="company.invalid && title.invalid && startDate.invalid && description.invalid">Save</button>
                     <button type="button" class="btn btn-outline btn-danger float-right"
-                        (click)="cancel()">Cancel</button>
+                        (click)="cancel()" style="margin-right: 5px">Cancel</button>
                 </div>
             </div>
         </form>
