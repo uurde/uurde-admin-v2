@@ -24,16 +24,15 @@
                         <div class="form-group col-lg-6">
                             <label>Artist</label>
                             <input type="text" class="form-control" #artistName="ngModel" [(ngModel)]="vinyl.artistName" name="artistName" required [ngClass]="artistName.invalid?'is-invalid':'is-valid'"
-                            name="movieName">
+                            name="artistName">
                         </div>
                         <div class="form-group col-lg-6">
                             <label>Album Name</label>
-                            <input type="text" class="form-control" #albumName="ngModel" [(ngModel)]="vinyl.albumName" name="albumName" required [ngClass]="albumName.invalid?'is-invalid':'is-valid'"
-                            name="movieName">
+                            <input type="text" class="form-control" #albumName="ngModel" [(ngModel)]="vinyl.albumName" name="albumName" required [ngClass]="albumName.invalid?'is-invalid':'is-valid'" name="albumName" (focusout)="getDiscogsVinyls(vinyl.artistName, vinyl.albumName); ">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-4">
                             <label>Vinyl Type</label>
                             <br />
                             <select class="form-control" (change)="selectchange($event)" #vinylType="ngModel" [(ngModel)]="vinyl.vinylTypeId" name="vinylType" [ngClass]="vinylType.invalid?'is-invalid':'is-valid'" required>
@@ -42,19 +41,25 @@
                                     {{vinylType.vinylTypeName}}</option>
                             </select>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label>Release Date</label>
-                            <input type="date" class="form-control" #albumReleaseDate="ngModel" [(ngModel)]="vinyl.albumReleaseDate" name="albumReleaseDate">
+                        <div class="form-group col-lg-4">
+                            <label>Release Year</label>
+                            <input type="text" class="form-control" #albumReleaseYear="ngModel" [(ngModel)]="vinyl.albumReleaseYear" name="albumReleaseYear" disabled>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>Genre</label>
+                            <input type="text" class="form-control" #albumGenre="ngModel" [(ngModel)]="vinyl.albumGenre" name="albumGenre" disabled>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-12">
                             <label>Cover Photo</label>
-                            <input type="text" class="form-control" #albumCoverPath="ngModel" [(ngModel)]="vinyl.albumCoverPath" name="albumCoverPath">
+                            <input type="text" class="form-control" #albumCoverPath="ngModel" [(ngModel)]="vinyl.albumCoverPath" name="albumCoverPath" disabled>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
+                    <button type="button" class="btn btn-outline btn-info" data-toggle="modal"
+                    data-target="#myModal" (click)="getDiscogsVinyls(vinyl.artistName, vinyl.albumName)">Get</button>
                     <button type="submit" class="btn btn-outline btn-success float-right" [disabled]="artistName.invalid && albumName.invalid && albumName.invalid">Save</button>
                     <button type="button" class="btn btn-outline btn-danger float-right"
                         (click)="cancel()"style="margin-right: 5px">Cancel</button>
@@ -63,9 +68,52 @@
         </form>
     </div>
 </section>
+
+<div class="modal fade" id="myModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{vinyl.artistName}} - {{vinyl.albumName}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">                
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cover</th>
+                            <th>Title</th>
+                            <th>Genre</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="clickable" *ngFor="let discogsVinyl of discogsVinyls" (click)="setVinyl(discogsVinyl);" data-dismiss="modal">
+                            <td><img src="{{discogsVinyl.coverImage}}" height=100 width=100/></td>
+                            <td>{{discogsVinyl.title}}</td>
+                            <td>{{discogsVinyl.genre}}</td>
+                            <td>{{discogsVinyl.year}}</td>
+                        </tr>
+                        <tr>
+                            <td *ngIf="discogsVinyls?.length === 0">No Data!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <swal #saved position='top-end' icon='success' title='Successfully saved' [showConfirmButton]=false timer=3000
     toast=true>
 </swal>
 <swal #error position="top-end" text="Error on saving. Please check logs" icon='error' [showConfirmButton]="false"
+    timer=3000 toast=true>
+</swal>
+<swal #get position="top-end" text="Error on get. Please check logs" icon='error' [showConfirmButton]="false"
     timer=3000 toast=true>
 </swal>

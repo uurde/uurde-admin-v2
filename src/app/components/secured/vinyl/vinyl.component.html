@@ -40,6 +40,7 @@
                                 <tr>
                                     <th>Artist</th>
                                     <th>Album Name</th>
+                                    <th>Album Release Year</th>
                                     <th>Vinyl Type</th>
                                     <th width="15%">Actions</th>
                                 </tr>
@@ -48,6 +49,7 @@
                                 <tr *ngFor="let vinyl of vinyls | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                                     <td>{{vinyl.artistName}}</td>
                                     <td>{{vinyl.albumName}}</td>
+                                    <td>{{vinyl.albumReleaseYear}}</td>
                                     <td>{{vinyl.vinylTypeName}}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-circle" data-toggle="modal"
@@ -89,9 +91,11 @@
                 </button>
             </div>
             <div class="modal-body">
+                <p class="text-center"><img class="img-fluid" src="{{vinyl.albumCoverPath}}" height="200px" width="200px" /></p>
                 <p><b>Album Name: </b> {{vinyl.albumName}}</p>
                 <p><b>Vinyl Type: </b> {{vinyl.vinylTypeName}}</p>
-                <p><b>Release Date: </b> {{vinyl.albumReleaseDate | date}}</p>
+                <p><b>Release Year: </b> {{vinyl.albumReleaseYear}}</p>
+                <p><b>Genre: </b> {{vinyl.albumGenre}}</p>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

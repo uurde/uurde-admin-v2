@@ -15,11 +15,13 @@ import { VinylModel } from '../../../../models/vinyl.model';
 export class VinylFormComponent implements OnInit {
   @ViewChild('saved', { static: false }) private saved: SwalComponent;
   @ViewChild('error', { static: false }) private error: SwalComponent;
+  @ViewChild('get', { static: false }) private get: SwalComponent;
   title: string;
   vinyl = new VinylModel();
   vinylForm: FormGroup;
   path;
   vinylTypes: any;
+  discogsVinyls: any;
 
   constructor(private _router: Router, private _route: ActivatedRoute, private _vinylService: VinylService) { }
 
@@ -71,6 +73,23 @@ export class VinylFormComponent implements OnInit {
 
   getVinylTypes() {
     this._vinylService.getVinylTypes().subscribe(data => { this.vinylTypes = data; }, null);
+  }
+
+  getDiscogsVinyls(artistName, albumName) {
+    this._vinylService.getDiscogsVinyls(artistName + "-" + albumName).subscribe(
+      data => { this.discogsVinyls = data },
+      err => { this.get.fire(); }
+    );
+  }
+
+  setVinyl(discogsVinyl) {
+    this.vinyl.albumReleaseYear = discogsVinyl.year;
+    this.vinyl.albumGenre = discogsVinyl.genre;
+    this.vinyl.albumCoverPath = discogsVinyl.coverImage;
+  }
+
+  focusOutFunction() {
+    console.log("focus out");
   }
 
   // editorConfig: AngularEditorConfig = {

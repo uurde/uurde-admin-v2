@@ -43,4 +43,8 @@ export class VinylService {
     getVinylTypes() {
         return this._http.get(this._url + "/GetVinylTypes", this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
     }
+
+    getDiscogsVinyls(query) {
+        return this._http.get(this._url + "/GetDiscogsVinyls/" + query, this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
+    }
 }
