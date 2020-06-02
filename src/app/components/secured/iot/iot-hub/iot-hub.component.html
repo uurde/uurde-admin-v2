@@ -30,8 +30,27 @@
                                 <tr *ngFor="let device of devices">
                                     <td>{{device.deviceName}}</td>
                                     <td align="center">
-                                        <bSwitch [switch-on-color]="onColor" [switch-off-color]="offColor" [switch-size]="size" [(ngModel)]="device.deviceState" (ngModelChange)="onFilterChange(device)"></bSwitch>
+                                        <bSwitch [switch-on-color]="onColor" [switch-off-color]="offColor" [switch-size]="size" [(ngModel)]="device.deviceState" (ngModelChange)="toggleState(device)"></bSwitch>
                                     </td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Last IoT Message</h3>
+                    </div>
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr *ngFor="let message of messages">
+                                    <td>{{message.topic}}</td>
+                                    <td>{{message.creDate | date:'dd.MM.yyyy H:mm'}}</td>
                             </tbody>
                         </table>
                     </div>
@@ -43,4 +62,3 @@
         </div>
     </div>
 </section>
-<!-- <input type="checkbox" name="my-checkbox" data-bootstrap-switch data-off-color="danger" data-on-color="success" [(ngModel)]="device.deviceState" (ngModelChange)="onFilterChange(device)"> -->

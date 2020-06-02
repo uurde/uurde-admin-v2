@@ -4,7 +4,6 @@ import * as _ from 'underscore';
 import { NgxSpinnerService } from "ngx-spinner";
 
 import { IotService } from 'src/app/services/iot.service';
-import { ContactService } from 'src/app/services/contact.service';
 
 @Component({
   selector: 'app-iot-hub',
@@ -14,18 +13,17 @@ import { ContactService } from 'src/app/services/contact.service';
 export class IotHubComponent implements OnInit {
   public onColor: string = 'success';
   public offColor: string = 'danger';
-  public size = 'small';
+  public size = 'mini';
+
+  messages: any;
   devices: any;
   device;
 
-  contacts: any;
-  contact;
-
-  constructor(private _router: Router, private _route: ActivatedRoute, private _iotService: IotService, private _contactService: ContactService, private spinner: NgxSpinnerService) { }
+  constructor(private _router: Router, private _route: ActivatedRoute, private _iotService: IotService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.getDevices();
-    //this.getUnreadContacts();
+    this.getMessages();
   }
 
   getDevices() {
@@ -33,12 +31,12 @@ export class IotHubComponent implements OnInit {
     this._iotService.getAllDevices().subscribe(data => { this.devices = data; }, null, () => { this.spinner.hide(); });
   }
 
-  getUnreadContacts() {
+  getMessages() {
     this.spinner.show();
-    this._contactService.getUnreadContacts().subscribe(data => { this.devices = data; }, null, () => { this.spinner.hide(); });
+    this._iotService.getLastMessage().subscribe(data => { this.messages = data; }, null, () => { this.spinner.hide(); });
   }
 
-  onFilterChange(eve: any) {
+  toggleState(eve: any) {
     this.spinner.show();
     var result;
     result = this._iotService.toggleDevice(eve);

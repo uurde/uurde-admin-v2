@@ -11,7 +11,7 @@ import { DeviceMessageModel } from '../models/device-message.model';
 @Injectable()
 export class IotService {
     headerConfig = new HeaderConfig();
-    
+
     device: DeviceModel;
     devices: DeviceModel[];
 
@@ -26,8 +26,8 @@ export class IotService {
     }
 
 
-    getAllDevices(){
-        return this._http.get(this._urlDevice, this.headerConfig.httpOptions).pipe(tap(res => {return res;}));
+    getAllDevices() {
+        return this._http.get(this._urlDevice, this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
     }
 
     getDevice(deviceId) {
@@ -46,8 +46,8 @@ export class IotService {
         return this._http.delete(this._urlDevice + "/" + deviceId, this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
     }
 
-    getAllDeviceMessages(){
-        return this._http.get(this._urlMessage, this.headerConfig.httpOptions).pipe(tap(res => {return res;}));
+    getAllDeviceMessages() {
+        return this._http.get(this._urlMessage, this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
     }
 
     getDeviceMessage(deviceMessageId) {
@@ -55,6 +55,10 @@ export class IotService {
     }
 
     toggleDevice(device) {
-        return this._http.put(this._urlDevice+"/ToggleState", device, this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
+        return this._http.put(this._urlDevice + "/ToggleState", device, this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
+    }
+
+    getLastMessage() {
+        return this._http.get(this._urlMessage + "/LastMessages", this.headerConfig.httpOptions).pipe(tap(res => { return res; }));
     }
 }
