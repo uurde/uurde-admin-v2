@@ -11,6 +11,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { MomentModule } from 'angular2-moment'; 
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 
 import { AppComponent } from './app.component';
 
@@ -96,7 +97,8 @@ import { IotDeviceFormComponent } from './components/secured/iot/iot-device/iot-
     SweetAlert2Module.forRoot(),
     NgIdleKeepaliveModule.forRoot(),
     MomentModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    JwBootstrapSwitchNg2Module
   ],
   providers: [
     BookService,

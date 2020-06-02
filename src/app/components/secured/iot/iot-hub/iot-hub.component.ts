@@ -12,6 +12,9 @@ import { ContactService } from 'src/app/services/contact.service';
   styleUrls: ['./iot-hub.component.css']
 })
 export class IotHubComponent implements OnInit {
+  public onColor: string = 'success';
+  public offColor: string = 'danger';
+  public size = 'small';
   devices: any;
   device;
 
@@ -22,7 +25,7 @@ export class IotHubComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDevices();
-    this.getUnreadContacts();
+    //this.getUnreadContacts();
   }
 
   getDevices() {
@@ -36,8 +39,9 @@ export class IotHubComponent implements OnInit {
   }
 
   onFilterChange(eve: any) {
+    this.spinner.show();
     var result;
     result = this._iotService.toggleDevice(eve);
-    result.subscribe(x => { this._router.navigate(['/dashboard']); });
+    result.subscribe(x => { this._router.navigate(['/iot-hub']); }, null, () => { this.spinner.hide(); });
   }
 }

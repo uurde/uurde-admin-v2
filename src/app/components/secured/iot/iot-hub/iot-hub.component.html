@@ -29,8 +29,8 @@
                             <tbody>
                                 <tr *ngFor="let device of devices">
                                     <td>{{device.deviceName}}</td>
-                                    <td>
-                                        <input type="checkbox" data-toggle="toggle">
+                                    <td align="center">
+                                        <bSwitch [switch-on-color]="onColor" [switch-off-color]="offColor" [switch-size]="size" [(ngModel)]="device.deviceState" (ngModelChange)="onFilterChange(device)"></bSwitch>
                                     </td>
                             </tbody>
                         </table>
@@ -43,3 +43,4 @@
         </div>
     </div>
 </section>
+<!-- <input type="checkbox" name="my-checkbox" data-bootstrap-switch data-off-color="danger" data-on-color="success" [(ngModel)]="device.deviceState" (ngModelChange)="onFilterChange(device)"> -->
