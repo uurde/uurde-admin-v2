@@ -19,6 +19,7 @@ export class VinylComponent implements OnInit {
   pageSize = 10;
   vinylsLoading;
   p: number = 1;
+  sum: number = 0;
 
   constructor(private _vinylService: VinylService, private spinner: NgxSpinnerService) { }
 
@@ -29,6 +30,7 @@ export class VinylComponent implements OnInit {
     this.spinner.show();
     this._vinylService.getAllVinyls().subscribe(data => {
       this.vinyls = data;
+      this.sum = this.vinyls.length;
       this.pagedVinyls = _.take(this.vinyls, this, this.pageSize);
     },
       null,
@@ -36,17 +38,17 @@ export class VinylComponent implements OnInit {
   }
 
   deleteVinyl(vinyl) {
-      var index = this.vinyls.indexOf(vinyl)
-      this._vinylService.deleteVinyl(vinyl.vinylId)
-        .subscribe(null,
-          err => {
-            this.error.fire();
-            this.vinyls.splice(index, 0, vinyl);
-          },
-          () => {
-            this.deleted.fire();
-            this.vinyls.splice(index, 1);
-          });
+    var index = this.vinyls.indexOf(vinyl)
+    this._vinylService.deleteVinyl(vinyl.vinylId)
+      .subscribe(null,
+        err => {
+          this.error.fire();
+          this.vinyls.splice(index, 0, vinyl);
+        },
+        () => {
+          this.deleted.fire();
+          this.vinyls.splice(index, 1);
+        });
   }
 
   select(vinyl) {

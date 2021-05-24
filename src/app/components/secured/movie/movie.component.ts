@@ -20,6 +20,7 @@ export class MovieComponent implements OnInit {
   pagedMovies = [];
   pageSize = 10;
   p: number = 1;
+  sum: number = 0;
   public searchText: string;
 
 
@@ -33,6 +34,7 @@ export class MovieComponent implements OnInit {
     this.spinner.show();
     this._movieService.getAllMovies().subscribe(data => {
       this.movies = data;
+      this.sum = this.movies.length;
       this.pagedMovies = _.take(this.movies, this, this.pageSize);
     },
       null,

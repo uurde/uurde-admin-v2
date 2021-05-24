@@ -50,8 +50,11 @@ export class VinylFormComponent implements OnInit {
 
   save() {
     var result;
-    if (this.vinyl.vinylId == null)
+    if (this.vinyl.vinylId == null){
+    console.log("insert");
+    console.log(this.vinyl);
       result = this._vinylService.insertVinyl(this.vinyl);
+    }
     else
       result = this._vinylService.updateVinyl(this.vinyl);
 

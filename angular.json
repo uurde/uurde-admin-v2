@@ -119,6 +119,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "uurde-admin-v2"
+    }
+  },
+  "defaultProject": "uurde-admin-v2",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

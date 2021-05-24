@@ -5,7 +5,7 @@ export class VinylModel extends BaseModel{
     artistName: string;
     albumName: string;
     albumReleaseDate: string;
-    albumReleaseYear: number;
+    albumReleaseYear: string;
     albumCoverPath: string;
     albumGenre: string;
     vinylTypeId: number;

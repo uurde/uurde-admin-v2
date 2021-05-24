@@ -25,6 +25,8 @@ import { UserFormComponent } from './components/secured/user/user-form/user-form
 import { IotDeviceComponent } from './components/secured/iot/iot-device/iot-device.component';
 import { IotDeviceMessagesComponent } from './components/secured/iot/iot-device-messages/iot-device-messages.component';
 import { IotHubComponent } from './components/secured/iot/iot-hub/iot-hub.component';
+import { CryptoComponent } from './components/secured/crypto/crypto.component';
+import { CryptoConfigComponent } from './components/secured/crypto/crypto-config/crypto-config.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -59,7 +61,9 @@ const routes: Routes = [
       // { path: 'profile', component: UserProfileComponent },
       { path: 'iot-device', component: IotDeviceComponent },
       { path: 'iot-device-message', component: IotDeviceMessagesComponent },
-      { path: 'iot-hub', component: IotHubComponent }
+      { path: 'iot-hub', component: IotHubComponent },
+      { path: 'crypto', component: CryptoComponent },
+      { path: 'crypto-config', component: CryptoConfigComponent }
     ]
   },
   { path: '**', redirectTo: 'login' }

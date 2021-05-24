@@ -1,0 +1,70 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white"> Loading... </p>
+</ngx-spinner>
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Balance</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard">Home</a></li>
+          <li class="breadcrumb-item active">Balance</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body table-responsive p-0">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Asset</th>
+                  <th>Market</th>
+                  <th>Balance</th>
+                  <th>BTC Balance</th>
+                  <th>TRY Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let balance of balances">
+                  <td><img src="https://uurde-api.ugurdegirmenci.com/uploads/crypto_icon/{{balance.asset}}.svg" /></td>
+                  <td>{{balance.asset}}</td>
+                  <td>{{balance.marketName}}</td>
+                  <td>{{balance.balance | number: '1.0-8'}}</td>
+                  <td>{{balance.btcValue | number: '1.0-8'}}</td>
+                  <td>{{balance.tryValue | number: '1.0-2'}}</td>
+                </tr>
+                <tr>
+                  <td colspan="3"></td>
+                  <td style="text-align:right"><b>Total</b></td>
+                  <td>{{btcTotal | number: '1.0-8'}}</td>
+                  <td>{{tryTotal | number: '1.0-2'}}</td>
+                </tr>
+                <tr>
+                  <td *ngIf="balances?.length === 0">No Data!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<swal #deleteSwal title="Are you sure you want to delete user?" icon="warning" [showCancelButton]="true"
+  [focusCancel]="true" [swalOptions]="{ confirmButtonText: 'Delete' }">
+</swal>
+<swal #deleted position='top-end' icon='success' title='Successfully deleted' [showConfirmButton]=false timer=3000
+  toast=true>
+</swal>
+<swal #error position="top-end" text="Error! Please check logs" icon='error' [showConfirmButton]=false timer=3000
+  toast=true>
+</swal>

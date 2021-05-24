@@ -26,7 +26,7 @@ export class AppComponent {
 
   constructor(private idle: Idle, private keepalive: Keepalive,
     private router: Router, private modalService: BsModalService, private _authenticationservice: UserService) {
-    idle.setIdle(900);
+    idle.setIdle(15);
     idle.setTimeout(15);
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 

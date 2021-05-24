@@ -4,14 +4,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
-import { MomentModule } from 'angular2-moment'; 
+import { MomentModule } from 'angular2-moment';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { NgxEditorModule } from 'ngx-editor';
+
+import { menu, placeholder, schema } from 'ngx-editor';
 
 import { AppComponent } from './app.component';
 
@@ -54,6 +58,9 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { SearchPipe } from './shared/search/search.pipe';
 import { IotDeviceFormComponent } from './components/secured/iot/iot-device/iot-device-form/iot-device-form.component';
+import { CryptoComponent } from './components/secured/crypto/crypto.component';
+import { CryptoConfigComponent } from './components/secured/crypto/crypto-config/crypto-config.component';
+import { CryptoService } from './services/crypto.service';
 
 @NgModule({
   declarations: [
@@ -83,10 +90,13 @@ import { IotDeviceFormComponent } from './components/secured/iot/iot-device/iot-
     IotDeviceComponent,
     IotDeviceMessagesComponent,
     IotHubComponent,
-    IotDeviceFormComponent
+    IotDeviceFormComponent,
+    CryptoComponent,
+    CryptoConfigComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpModule,
     HttpClientModule,
@@ -98,7 +108,29 @@ import { IotDeviceFormComponent } from './components/secured/iot/iot-device/iot-
     NgIdleKeepaliveModule.forRoot(),
     MomentModule,
     ModalModule.forRoot(),
-    JwBootstrapSwitchNg2Module
+    JwBootstrapSwitchNg2Module,
+    NgxEditorModule.forRoot({
+      schema,
+      plugins: [
+        menu({
+          toolbar: [
+            ['bold', 'italic', 'code'],
+            ['ordered_list', 'bullet_list'],
+            [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }]
+          ],
+          labels: {
+            bold: 'Bold',
+            italics: 'Italics',
+            code: 'Code',
+            ordered_list: 'Ordered List',
+            bullet_list: 'Bullet List',
+            heading: 'Heading'
+          }
+        }),
+        placeholder('Type something here...')
+      ],
+      nodeViews: {}
+    })
   ],
   providers: [
     BookService,
@@ -111,7 +143,8 @@ import { IotDeviceFormComponent } from './components/secured/iot/iot-device/iot-
     UserService,
     VinylService,
     AuthguardService,
-    IotService
+    IotService,
+    CryptoService
   ],
   bootstrap: [AppComponent]
 })
